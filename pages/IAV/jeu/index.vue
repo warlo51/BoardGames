@@ -2,7 +2,7 @@
     <div class="tab">
         <div v-for="colorGame in colorGames" :key="colorGame">
             <button :class="getColor(colorGame)" @click="selectedColor = colorGame" v-if="colorGame !== color" class="text-white font-bold py-2 px-4 rounded mb-4">
-                {{ colorGame }}
+                {{ getName(colorGame) }}
             </button>
         </div>
     </div>
@@ -67,14 +67,34 @@ import { ref, onMounted, watch } from 'vue';
 // Définir l'état réactif
 const color = ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
+const gamersNames = ref();
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const colorGames = ["Rouge", "Vert", "Jaune", "Bleu"];
 
+const getName = (value: string) => {
+    if(gamersNames.value === undefined){
+        return
+    }
+    if(value === "Jaune" && gamersNames.value.Jaune){
+        return gamersNames.value.Jaune
+    } else  if(value === "Rouge" && gamersNames.value.Rouge){
+        return gamersNames.value.Rouge
+    } else  if(value === "Vert" && gamersNames.value.Vert){
+        return gamersNames.value.Vert
+    } else  if(value === "Bleu" && gamersNames.value.Bleu){
+        return gamersNames.value.Bleu;
+    }
+
+}
 // Récupérer la couleur initiale depuis le localStorage
 onMounted(() => {
     if (typeof window !== 'undefined') {
         color.value = localStorage.getItem('gamerColor');
+        if(localStorage.getItem(`gamerNames`)){
+            console.log("toto", localStorage.getItem(`gamerNames`))
+            gamersNames.value = JSON.parse(localStorage.getItem(`gamerNames`) ?? "");
+        }
     }
 });
 
@@ -116,6 +136,7 @@ const reset = () => {
     localStorage.removeItem(`gamerColor`);
     localStorage.removeItem(`gamerBody`);
     localStorage.removeItem(`gamerCode`);
+    localStorage.removeItem(`gamerNames`);
     window.location.href = '/IAV';
 }
 // Mettre à jour les données et sauvegarder dans le localStorage

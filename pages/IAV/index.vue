@@ -10,6 +10,7 @@
             <WhatIsYourBody v-else-if="gamerBody === null" @select="(value) => gamerBody = value"/>
             <WhatIsYourCode v-else-if="gamerCode === null" @select="(value) => gamerCode = value"/>
             <WhatIsYourColor v-else-if="gamerColor === null" @select="(value) => gamerColor = value"/>
+            <WhatAreNameGamers v-else-if="gamersColors === null" @validate="(value) => gamersColors = value"/>
         </div>
     </div>
 </template>
@@ -19,11 +20,13 @@ import WhoAreYou from '../../components/IAV/Infos_Joueur/WhoAreYou.vue';
 import WhatIsYourBody from '../../components/IAV/Infos_Joueur/WhatIsYourBody.vue';
 import WhatIsYourCode from '../../components/IAV/Infos_Joueur/WhatIsYourCode.vue';
 import WhatIsYourColor from '../../components/IAV/Infos_Joueur/WhatIsYourColor.vue';
+import WhatAreNameGamers from '../../components/IAV/Infos_Joueur/WhatAreNameGamers.vue';
 
 const gamerPerso = ref<string|null>(null);
 const gamerCode = ref<string|null>(null);
 const gamerBody = ref<string|null>(null);
 const gamerColor = ref<string|null>(null);
+const gamersColors = ref<string|null>(null);
 const showButtonPlay = ref(true);
 
 const startGame = () => {
@@ -31,11 +34,12 @@ const startGame = () => {
     gamerCode.value = null;
     gamerPerso.value = null;
     gamerColor.value = null;
+    gamersColors.value = null;
     showButtonPlay.value = false;
 }
 
-watch([gamerPerso, gamerCode, gamerBody, gamerColor], () => {
-    if(gamerPerso.value !== null && gamerCode.value !== null && gamerBody.value !== null && gamerColor.value !== null) {
+watch([gamerPerso, gamerCode, gamerBody, gamerColor, gamersColors], () => {
+    if(gamerPerso.value !== null && gamerCode.value !== null && gamerBody.value !== null && gamerColor.value !== null && gamersColors.value !== null) {
         window.location.href = '/IAV/jeu';
     }
 });
@@ -53,6 +57,9 @@ onMounted(() => {
     }
     if(localStorage.getItem('gamerColor')) {
         gamerColor.value = localStorage.getItem('gamerColor');
+    }
+    if(localStorage.getItem('gamerNames')) {
+        gamersColors.value = localStorage.getItem('gamerNames');
     }
     }
 });
