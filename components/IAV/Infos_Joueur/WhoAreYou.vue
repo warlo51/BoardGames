@@ -1,20 +1,16 @@
 <template>
     <div class="container">
-        <h3 class="mb-4">
+        <h3 class="mb-4 font-bold">
             Qui es tu ?
         </h3>
-        <button @click="savePerso('Lord_Fiddlebottom')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Lord Fiddlebottom
-        </button>
-        <button @click="savePerso('Col_Bubble')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Col. Bubble
-        </button>
-        <button @click="savePerso('Madame_Zsa_Zsa')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Madame Zsa Zsa
-        </button>
-        <button @click="savePerso('Agent_X')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Agent X
-        </button>
+        <div class="divContainerCart">
+            <img src="../../../public/IAV/perso/lord_fiddlebottom.jpg" @click="savePerso('Lord_Fiddlebottom')" class="imagePerso"/>
+            <img src="../../../public/IAV/perso/col_bubble.jpg" @click="savePerso('Col_Bubble')" class="imagePerso"/> 
+        </div>
+        <div class="divContainerCart mt-8">
+            <img src="../../../public/IAV/perso/ZsaZsa.jpg" @click="savePerso('Madame_Zsa_Zsa')" class="imagePerso"/>
+            <img src="../../../public/IAV/perso/agent_x.jpg" @click="savePerso('Agent_X')" class="imagePerso"/>
+        </div>
     </div>    
 </template>
 <script lang="ts" setup>
@@ -32,5 +28,13 @@ const savePerso = (perso: string) => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.imagePerso{
+    width: 150px;
+    margin-right: 10px;
+}
+.divContainerCart{
+    display: flex;
+    flex-direction: row;
 }
 </style>

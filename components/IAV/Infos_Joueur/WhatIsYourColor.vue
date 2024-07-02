@@ -1,20 +1,16 @@
 <template>
     <div class="container">
-        <h3>
+        <h3 class="mb-4 font-bold">
             Quel est ta couleur ?
         </h3>
-        <button @click="saveColor('Rouge')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Rouge
-        </button>
-        <button @click="saveColor('Vert')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Vert
-        </button>
-        <button @click="saveColor('Bleu')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Bleu
-        </button>
-        <button @click="saveColor('Jaune')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Jaune
-        </button>
+        <div class="divContainerCart">
+            <div @click="saveColor('Rouge')" class="cartRouge"> </div>
+            <div @click="saveColor('Vert')" class="cartVert"> </div>
+        </div>
+        <div class="divContainerCart mt-8">
+            <div @click="saveColor('Bleu')" class="cartBleu"></div>
+            <div @click="saveColor('Jaune')" class="cartJaune"></div>
+        </div>
     </div>    
 </template>
 <script lang="ts" setup>
@@ -31,5 +27,33 @@ const saveColor = (color: string) => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.cartRouge{
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    background-color: red;
+}
+.cartBleu{
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    background-color: blue;
+}
+.cartVert{
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    background-color: green;
+}
+.cartJaune{
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    background-color: orange;
+}
+.divContainerCart{
+    display: flex;
+    flex-direction: row;
 }
 </style>

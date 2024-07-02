@@ -1,20 +1,16 @@
 <template>
     <div class="container">
-        <h3>
+        <h3 class="mb-4 font-bold">
             Quel Code As Tu ?
         </h3>
-        <button @click="saveCode('A')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            A
-        </button>
-        <button @click="saveCode('B')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            B
-        </button>
-        <button @click="saveCode('C')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            C
-        </button>
-        <button @click="saveCode('D')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            D
-        </button>
+        <div class="divContainerCart">
+            <img src="../../../public/IAV/codes/A.jpg" @click="saveCode('A')" class="imagePerso"/>
+            <img src="../../../public/IAV/codes/B.jpg" @click="saveCode('B')" class="imagePerso"/> 
+        </div>
+        <div class="divContainerCart mt-8">
+            <img src="../../../public/IAV/codes/C.jpg" @click="saveCode('C')" class="imagePerso"/>
+            <img src="../../../public/IAV/codes/D.jpg" @click="saveCode('D')" class="imagePerso"/>
+        </div>
     </div>    
 </template>
 <script lang="ts" setup>
@@ -31,5 +27,13 @@ const saveCode = (code: string) => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.imagePerso{
+    width: 150px;
+    margin-right: 10px;
+}
+.divContainerCart{
+    display: flex;
+    flex-direction: row;
 }
 </style>
