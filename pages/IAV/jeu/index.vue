@@ -208,9 +208,9 @@ watch(selectedColor, () => {
                 if(gamerPerso === "Lord_Fiddlebottom"){
                     data.value[index][0] = "O";
                 }else if(gamerPerso === "Col_Bubble"){
-                    data.value[index][1] = "O";
-                }else if(gamerPerso === "Madame_Zsa_Zsa"){
                     data.value[index][2] = "O";
+                }else if(gamerPerso === "Madame_Zsa_Zsa"){
+                    data.value[index][1] = "O";
                 }else if(gamerPerso === "Agent_X"){
                     data.value[index][3] = "O";
                 }
