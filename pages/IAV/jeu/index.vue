@@ -16,10 +16,18 @@
                     <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">B</th>
                     <th class="px-4 py-2">X</th>
-                    <th class="px-4 py-2">GG</th>
-                    <th class="px-4 py-2">GM</th>
-                    <th class="px-4 py-2">P</th>
-                    <th class="px-4 py-2">PG</th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_gros.jpg"/>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -40,10 +48,18 @@
                     <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">B</th>
                     <th class="px-4 py-2">X</th>
-                    <th class="px-4 py-2">GG</th>
-                    <th class="px-4 py-2">GM</th>
-                    <th class="px-4 py-2">P</th>
-                    <th class="px-4 py-2">PG</th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    </th>
+                    <th class="px-4 py-2">
+                        <img src="../../../public/IAV/icons/icon_gros.jpg"/>
+                    </th>
                 </tr>
             </thead>
             <tbody>
