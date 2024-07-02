@@ -1,7 +1,7 @@
 <template>
     <div class="tab">
         <div v-for="colorGame in colorGames" :key="colorGame">
-            <button @click="selectedColor = colorGame" v-if="colorGame !== color" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            <button :class="getColor(colorGame)" @click="selectedColor = colorGame" v-if="colorGame !== color" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
                 {{ colorGame }}
             </button>
         </div>
@@ -52,6 +52,18 @@ onMounted(() => {
     }
 });
 
+const getColor = (value: string) => {
+    if(value === "Jaune"){
+        return "buttonJaune";
+    } else  if(value === "Rouge"){
+        return "buttonRouge";
+    } else  if(value === "Vert"){
+        return "buttonVert";
+    } else  if(value === "Bleu"){
+        return "buttonBleu";
+    }
+    
+}
 const reset = () => {
     localStorage.removeItem(`gameRouge`);
     localStorage.removeItem(`gameBleu`);
@@ -84,7 +96,6 @@ const updateData = (ligne: number, colonne: number) => {
 
 // Observer les changements dans selectedColor pour charger les données correspondantes depuis le localStorage
 watch(selectedColor, () => {
-    console.log("coucou")
     if (selectedColor.value) {
         const storedData = localStorage.getItem(`game${selectedColor.value}`);
         if (storedData) {
@@ -101,6 +112,7 @@ watch(selectedColor, () => {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-top: 1rem;
 
     button {
         margin-right: 2rem;
@@ -108,5 +120,18 @@ watch(selectedColor, () => {
 }
 .ligne {
     height: 2rem; // Ajustez comme nécessaire pour l'apparence
+}
+.buttonRouge{
+    background-color: red;
+}
+.buttonJaune{
+    background-color: yellow;
+    color: black
+}
+.buttonVert{
+    background-color: green;
+}
+.buttonBleu{
+    background-color: blue;
 }
 </style>
