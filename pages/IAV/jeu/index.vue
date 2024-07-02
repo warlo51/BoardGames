@@ -6,6 +6,11 @@
             </button>
         </div>
     </div>
+    <div class="divCartMe">
+        <img :src="getPerso" class="cartMe"/>
+        <img :src="getBody" class="cartMe"/>
+        <img :src="getCode" class="cartMe"/>
+    </div>
     <div v-if="selectedColor">
         <div :class="getColorPage()" >
         <h2 class="ml-8 font-bold">Cartes Reçus</h2>
@@ -13,8 +18,8 @@
             <thead>
                 <tr>
                     <th class="px-4 py-2">F</th>
-                    <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">B</th>
+                    <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">X</th>
                     <th class="px-4 py-2">
                         <img src="../../../public/IAV/icons/icon_grand.jpg"/>
@@ -32,7 +37,7 @@
             </thead>
             <tbody>
                 <tr v-for="(row, rowIndex) in data" :key="rowIndex" class="ligne">
-                    <td v-for="(cell, colIndex) in row" :key="colIndex" :class="getBackColor(cell)" class="border px-4 py-2" @click="updateData(rowIndex, colIndex, cell)">
+                    <td v-for="(cell, colIndex) in row" :key="colIndex" :class="getBackColor(colIndex)" class="border px-4 py-2" @click="updateData(rowIndex, colIndex, cell)">
                         {{ cell }}
                     </td>
                 </tr>
@@ -45,8 +50,8 @@
             <thead>
                 <tr>
                     <th class="px-4 py-2">F</th>
-                    <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">B</th>
+                    <th class="px-4 py-2">Z</th>
                     <th class="px-4 py-2">X</th>
                     <th class="px-4 py-2">
                         <img src="../../../public/IAV/icons/icon_grand.jpg"/>
@@ -79,15 +84,51 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 
 // Définir l'état réactif
 const color = ref<string|null>(null);
+const gamerBody = ref<string|null>(null);
+const gamerPerso = ref<string|null>(null);
+const gamerCode= ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
 const gamersNames = ref();
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const colorGames = ["Rouge", "Vert", "Jaune", "Bleu"];
+const getPerso = computed(()=>{
+    if(gamerPerso.value === "Lord_Fiddlebottom"){
+        return "/IAV/perso/lord_fiddlebottom.jpg"
+    } else  if(gamerPerso.value === "Col_Bubble"){
+        return  "/IAV/perso/col_bubble.jpg"
+    } else  if(gamerPerso.value === "Madame_Zsa_Zsa"){
+        return  "/IAV/perso/ZsaZsa.jpg"
+    } else  if(gamerPerso.value === "Agent_X"){
+        return  "/IAV/perso/agent_x.jpg"
+    }
+})
+const getCode = computed(()=>{
+    if(gamerCode.value === "A"){
+        return "/IAV/codes/A.jpg"
+    } else  if(gamerCode.value === "B"){
+        return  "/IAV/codes/B.jpg"
+    } else  if(gamerCode.value === "C"){
+        return  "/IAV/codes/C.jpg"
+    } else  if(gamerCode.value === "D"){
+        return  "/IAV/codes/D.jpg"
+    }
+})
+const getBody = computed(()=>{
+    if(gamerBody.value === "Grand&Mince"){
+        return "/IAV/body/body_grand.jpg"
+    } else  if(gamerBody.value === "Grand&Costaud"){
+        return  "/IAV/body/body_grand_gros.jpg"
+    } else  if(gamerBody.value === "Petit&Mince"){
+        return  "/IAV/body/body_petit.jpg"
+    } else  if(gamerBody.value === "Petit&Costaud"){
+        return  "/IAV/body/body_petit_gros.jpg"
+    }
+})
 
 const getName = (value: string) => {
     if(gamersNames.value === undefined){
@@ -108,8 +149,11 @@ const getName = (value: string) => {
 onMounted(() => {
     if (typeof window !== 'undefined') {
         color.value = localStorage.getItem('gamerColor');
+        gamerBody.value = localStorage.getItem("gamerBody");
+        gamerPerso.value = localStorage.getItem("gamerPerso");
+        gamerCode.value = localStorage.getItem("gamerCode");
+
         if(localStorage.getItem(`gamerNames`)){
-            console.log("toto", localStorage.getItem(`gamerNames`))
             gamersNames.value = JSON.parse(localStorage.getItem(`gamerNames`) ?? "");
         }
     }
@@ -139,8 +183,23 @@ const getColorPage = () => {
          return "pageBleu"
     }
 }
-const getBackColor = (value: string) => {
-    if(value === "O"){
+const getBackColor = (index: number) => {
+    if(gamerPerso.value === "Lord_Fiddlebottom" && index === 0){
+        return "disabled"
+    } else  if(gamerPerso.value === "Col_Bubble" && index === 1){
+        return "disabled"
+    } else  if(gamerPerso.value === "Madame_Zsa_Zsa" && index === 2){
+        return "disabled"
+    } else  if(gamerPerso.value === "Agent_X" && index === 3){
+        return "disabled"
+    }
+    if(gamerBody.value === "Grand&Mince" && index === 5){
+        return "disabled"
+    } else  if(gamerBody.value === "Grand&Costaud" && index === 4){
+        return "disabled"
+    } else  if(gamerBody.value === "Petit&Mince" && index === 6){
+        return "disabled"
+    } else  if(gamerBody.value === "Petit&Costaud" && index === 7){
         return "disabled"
     }
 }
@@ -156,6 +215,7 @@ const reset = () => {
     localStorage.removeItem(`gamerNames`);
     window.location.href = '/IAV';
 }
+
 // Mettre à jour les données et sauvegarder dans le localStorage
 const updateData = (ligne: number, colonne: number, cell: string) => {
     // Assurez-vous que les indices sont valides
@@ -207,32 +267,6 @@ watch(selectedColor, () => {
         } else {
             data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
             dataDonnees.value = Array.from({ length: 15 }, () => Array(8).fill(''));
-
-            const gamerBody = localStorage.getItem("gamerBody");
-            const gamerPerso = localStorage.getItem("gamerPerso");
-
-            for(const [index, ligne] of data.value.entries()){
-                if(gamerBody === "Grand&Mince"){
-                    data.value[index][5] = "O";
-                }else if(gamerBody === "Grand&Costaud"){
-                    data.value[index][4] = "O";
-                }else if(gamerBody === "Petit&Mince"){
-                    data.value[index][6] = "O";
-                }else if(gamerBody === "Petit&Costaud"){
-                    data.value[index][7] = "O";
-                }
-            }
-            for(const [index, ligne] of data.value.entries()){
-                if(gamerPerso === "Lord_Fiddlebottom"){
-                    data.value[index][0] = "O";
-                }else if(gamerPerso === "Col_Bubble"){
-                    data.value[index][2] = "O";
-                }else if(gamerPerso === "Madame_Zsa_Zsa"){
-                    data.value[index][1] = "O";
-                }else if(gamerPerso === "Agent_X"){
-                    data.value[index][3] = "O";
-                }
-            }
         }
     }
 });
@@ -266,8 +300,7 @@ watch(selectedColor, () => {
     background-color: blue;
 }
 .disabled{
-    background-color: grey;
-    color: grey;
+    background-color: #CDC6C4;
 }
 .content{
     padding-left:10px;
@@ -284,5 +317,15 @@ watch(selectedColor, () => {
 }
 .pageBleu{
     color: blue
+}
+.cartMe{
+    width: 100px;
+    margin-right: 20px;
+}
+.divCartMe{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+    margin-bottom: 1rem;
 }
 </style>
