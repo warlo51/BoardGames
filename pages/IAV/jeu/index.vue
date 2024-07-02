@@ -188,7 +188,7 @@ const updateDataDonnee = (ligne: number, colonne: number) => {
         }
 
         if (selectedColor.value) {
-            localStorage.setItem(`gameReceive${selectedColor.value}`, JSON.stringify(dataDonnees.value));
+            localStorage.setItem(`gameSend${selectedColor.value}`, JSON.stringify(dataDonnees.value));
         }
     } else {
         console.error(`Invalid indices or data structure: ligne=${ligne}, colonne=${colonne}`);
@@ -199,9 +199,10 @@ const updateDataDonnee = (ligne: number, colonne: number) => {
 watch(selectedColor, () => {
     if (selectedColor.value) {
         const storedData = localStorage.getItem(`game${selectedColor.value}`);
-        const storedDataDonee = localStorage.getItem(`gameReceive${selectedColor.value}`);
+        const storedDataDonee = localStorage.getItem(`gameSend${selectedColor.value}`);
         if (storedData) {
             data.value = JSON.parse(storedData);
+        } else if (storedDataDonee) {
             dataDonnees.value = JSON.parse(storedDataDonee);
         } else {
             data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
