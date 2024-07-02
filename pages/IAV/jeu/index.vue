@@ -7,7 +7,8 @@
         </div>
     </div>
 
-    <div>
+    <div >
+        <h2 class="ml-8 font-bold">Cartes Reçus</h2>
         <table class="table-auto">
             <thead>
                 <tr>
@@ -23,7 +24,31 @@
             </thead>
             <tbody>
                 <tr v-for="(row, rowIndex) in data" :key="rowIndex" class="ligne">
-                    <td v-for="(cell, colIndex) in row" :key="colIndex" class="border px-4 py-2" @click="updateData(rowIndex, colIndex)">
+                    <td v-for="(cell, colIndex) in row" :key="colIndex" :class="getBackColor(cell)" class="border px-4 py-2" @click="updateData(rowIndex, colIndex, cell)">
+                        {{ cell }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-16">
+        <h2 class="ml-8 font-bold">Cartes Données</h2>
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">F</th>
+                    <th class="px-4 py-2">Z</th>
+                    <th class="px-4 py-2">B</th>
+                    <th class="px-4 py-2">X</th>
+                    <th class="px-4 py-2">GG</th>
+                    <th class="px-4 py-2">GM</th>
+                    <th class="px-4 py-2">P</th>
+                    <th class="px-4 py-2">PG</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(row, rowIndex) in dataDonnees" :key="rowIndex" class="ligne">
+                    <td v-for="(cell, colIndex) in row" :key="colIndex" class="border px-4 py-2" @click="updateDataDonnee(rowIndex, colIndex)">
                         {{ cell }}
                     </td>
                 </tr>
@@ -31,7 +56,7 @@
         </table>
     </div>
 
-  <button @click="reset" class=" mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+  <button @click="reset" class="ml-8 mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
     Reset
   </button>
 </template>
@@ -43,6 +68,7 @@ import { ref, onMounted, watch } from 'vue';
 const color = ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
+const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const colorGames = ["Rouge", "Vert", "Jaune", "Bleu"];
 
 // Récupérer la couleur initiale depuis le localStorage
@@ -64,6 +90,12 @@ const getColor = (value: string) => {
     }
     
 }
+
+const getBackColor = (value: string) => {
+    if(value === "O"){
+        return "disabled"
+    }
+}
 const reset = () => {
     localStorage.removeItem(`gameRouge`);
     localStorage.removeItem(`gameBleu`);
@@ -76,10 +108,12 @@ const reset = () => {
     window.location.href = '/IAV';
 }
 // Mettre à jour les données et sauvegarder dans le localStorage
-const updateData = (ligne: number, colonne: number) => {
+const updateData = (ligne: number, colonne: number, cell: string) => {
     // Assurez-vous que les indices sont valides
+    if(cell === "O"){
+        return;
+    }
     if (data.value[ligne] && data.value[ligne][colonne] !== undefined) {
-        console.log("toto", data.value[ligne][colonne])
         if(data.value[ligne][colonne] === "X") {
             data.value[ligne][colonne] = "";
         } else {
@@ -94,14 +128,61 @@ const updateData = (ligne: number, colonne: number) => {
     }
 }
 
+// Mettre à jour les données et sauvegarder dans le localStorage
+const updateDataDonnee = (ligne: number, colonne: number) => {
+    // Assurez-vous que les indices sont valides
+    if (dataDonnees.value[ligne] && dataDonnees.value[ligne][colonne] !== undefined) {
+        if(dataDonnees.value[ligne][colonne] === "X") {
+            dataDonnees.value[ligne][colonne] = "";
+        } else {
+            dataDonnees.value[ligne][colonne] = "X";
+        }
+
+        if (selectedColor.value) {
+            localStorage.setItem(`gameReceive${selectedColor.value}`, JSON.stringify(dataDonnees.value));
+        }
+    } else {
+        console.error(`Invalid indices or data structure: ligne=${ligne}, colonne=${colonne}`);
+    }
+}
+
 // Observer les changements dans selectedColor pour charger les données correspondantes depuis le localStorage
 watch(selectedColor, () => {
     if (selectedColor.value) {
         const storedData = localStorage.getItem(`game${selectedColor.value}`);
+        const storedDataDonee = localStorage.getItem(`gameReceive${selectedColor.value}`);
         if (storedData) {
             data.value = JSON.parse(storedData);
+            dataDonnees.value = JSON.parse(storedDataDonee);
         } else {
             data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
+            dataDonnees.value = Array.from({ length: 15 }, () => Array(8).fill(''));
+
+            const gamerBody = localStorage.getItem("gamerBody");
+            const gamerPerso = localStorage.getItem("gamerPerso");
+
+            for(const [index, ligne] of data.value.entries()){
+                if(gamerBody === "Grand&Mince"){
+                    data.value[index][5] = "O";
+                }else if(gamerBody === "Grand&Costaud"){
+                    data.value[index][4] = "O";
+                }else if(gamerBody === "Petit&Mince"){
+                    data.value[index][6] = "O";
+                }else if(gamerBody === "Petit&Costaud"){
+                    data.value[index][7] = "O";
+                }
+            }
+            for(const [index, ligne] of data.value.entries()){
+                if(gamerPerso === "Lord_Fiddlebottom"){
+                    data.value[index][0] = "O";
+                }else if(gamerBody === "Col_Bubble"){
+                    data.value[index][1] = "O";
+                }else if(gamerBody === "Madame_Zsa_Zsa"){
+                    data.value[index][2] = "O";
+                }else if(gamerBody === "Agent_X"){
+                    data.value[index][3] = "O";
+                }
+            }
         }
     }
 });
@@ -133,5 +214,13 @@ watch(selectedColor, () => {
 }
 .buttonBleu{
     background-color: blue;
+}
+.disabled{
+    background-color: grey;
+    color: grey;
+}
+.content{
+    padding-left:10px;
+    padding-right:10px;
 }
 </style>

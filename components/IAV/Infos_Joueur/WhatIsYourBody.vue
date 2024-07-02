@@ -9,10 +9,10 @@
         <button @click="saveBody('Grand&Costaud')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
             Grand et Costaud
         </button>
-        <button @click="saveBody(' Petit&Mince')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+        <button @click="saveBody('Petit&Mince')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
             Petit et Mince
         </button>
-        <button @click="saveBody(' Petit&Costaud')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+        <button @click="saveBody('Petit&Costaud')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
             Petit et Costaud
         </button>
     </div>    
