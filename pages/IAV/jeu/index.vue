@@ -12,21 +12,29 @@
         <table class="table-auto">
             <thead>
                 <tr>
-                    <th class="px-4 py-2">F</th>
-                    <th class="px-4 py-2">Z</th>
-                    <th class="px-4 py-2">B</th>
-                    <th class="px-4 py-2">X</th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart" src="../../../public/IAV/perso/lord_fiddlebottom.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/ZsaZsa.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/col_bubble.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_gros.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/agent_x.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_gros.jpg"/>
                     </th>
                 </tr>
             </thead>
@@ -44,21 +52,29 @@
         <table class="table-auto">
             <thead>
                 <tr>
-                    <th class="px-4 py-2">F</th>
-                    <th class="px-4 py-2">Z</th>
-                    <th class="px-4 py-2">B</th>
-                    <th class="px-4 py-2">X</th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/lord_fiddlebottom.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/ZsaZsa.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/col_bubble.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
-                        <img src="../../../public/IAV/icons/icon_gros.jpg"/>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/perso/agent_x.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_grand.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_maigre.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_petit.jpg"/>
+                    </th>
+                    <th class="px-4 py-2 imgCart">
+                        <img class="imgCart"  src="../../../public/IAV/icons/icon_gros.jpg"/>
                     </th>
                 </tr>
             </thead>
@@ -247,6 +263,10 @@ watch(selectedColor, () => {
     button {
         margin-right: 2rem;
     }
+}
+.imgCart{
+    width: 70px;
+    height: 50px;
 }
 .ligne {
     height: 2rem; // Ajustez comme nécessaire pour l'apparence
