@@ -1,13 +1,13 @@
 <template>
     <div class="tab">
         <div v-for="colorGame in colorGames" :key="colorGame">
-            <button :class="getColor(colorGame)" @click="selectedColor = colorGame" v-if="colorGame !== color" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            <button :class="getColor(colorGame)" @click="selectedColor = colorGame" v-if="colorGame !== color" class="text-white font-bold py-2 px-4 rounded mb-4">
                 {{ colorGame }}
             </button>
         </div>
     </div>
 
-    <div >
+    <div :class="getColorPage()">
         <h2 class="ml-8 font-bold">Cartes Reçus</h2>
         <table class="table-auto">
             <thead>
@@ -31,7 +31,7 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-16">
+    <div class="mt-16" :class="getColorPage()">
         <h2 class="ml-8 font-bold">Cartes Données</h2>
         <table class="table-auto">
             <thead>
@@ -91,6 +91,17 @@ const getColor = (value: string) => {
     
 }
 
+const getColorPage = () => {
+    if(selectedColor.value === "Rouge"){
+        return "pageRouge"
+    } else if(selectedColor.value === "Vert"){
+         return "pageVert"
+    }else if(selectedColor.value === "Jaune"){
+         return "pageJaune"
+    }else if(selectedColor.value === "Bleu"){
+         return "pageBleu"
+    }
+}
 const getBackColor = (value: string) => {
     if(value === "O"){
         return "disabled"
@@ -175,11 +186,11 @@ watch(selectedColor, () => {
             for(const [index, ligne] of data.value.entries()){
                 if(gamerPerso === "Lord_Fiddlebottom"){
                     data.value[index][0] = "O";
-                }else if(gamerBody === "Col_Bubble"){
+                }else if(gamerPerso === "Col_Bubble"){
                     data.value[index][1] = "O";
-                }else if(gamerBody === "Madame_Zsa_Zsa"){
+                }else if(gamerPerso === "Madame_Zsa_Zsa"){
                     data.value[index][2] = "O";
-                }else if(gamerBody === "Agent_X"){
+                }else if(gamerPerso === "Agent_X"){
                     data.value[index][3] = "O";
                 }
             }
@@ -206,7 +217,7 @@ watch(selectedColor, () => {
     background-color: red;
 }
 .buttonJaune{
-    background-color: yellow;
+    background-color: orange;
     color: black
 }
 .buttonVert{
@@ -222,5 +233,17 @@ watch(selectedColor, () => {
 .content{
     padding-left:10px;
     padding-right:10px;
+}
+.pageRouge{
+    color: red
+}
+.pageVert{
+    color: green
+}
+.pageJaune{
+    color: orange
+}
+.pageBleu{
+    color: blue
 }
 </style>
