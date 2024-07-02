@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div :class="getColorPage()">
+    <div :class="getColorPage()" v-if="selectedColor">
         <h2 class="ml-8 font-bold">Cartes Reçus</h2>
         <table class="table-auto">
             <thead>
@@ -31,7 +31,7 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-16" :class="getColorPage()">
+    <div class="mt-16" :class="getColorPage()" v-if="selectedColor">
         <h2 class="ml-8 font-bold">Cartes Données</h2>
         <table class="table-auto">
             <thead>
