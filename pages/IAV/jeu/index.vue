@@ -30,6 +30,10 @@
             </tbody>
         </table>
     </div>
+
+  <button @click="reset" class=" mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+    Reset
+  </button>
 </template>
 
 <script lang="ts" setup>
@@ -48,6 +52,17 @@ onMounted(() => {
     }
 });
 
+const reset = () => {
+    localStorage.removeItem(`gameRouge`);
+    localStorage.removeItem(`gameBleu`);
+    localStorage.removeItem(`gameJaune`);
+    localStorage.removeItem(`gameVert`);
+    localStorage.removeItem(`gamerPerso`);
+    localStorage.removeItem(`gamerColor`);
+    localStorage.removeItem(`gamerBody`);
+    localStorage.removeItem(`gamerCode`);
+    window.location.href = '/IAV';
+}
 // Mettre à jour les données et sauvegarder dans le localStorage
 const updateData = (ligne: number, colonne: number) => {
     // Assurez-vous que les indices sont valides
@@ -58,7 +73,7 @@ const updateData = (ligne: number, colonne: number) => {
         } else {
             data.value[ligne][colonne] = "X";
         }
-   
+
         if (selectedColor.value) {
             localStorage.setItem(`game${selectedColor.value}`, JSON.stringify(data.value));
         }
@@ -86,7 +101,7 @@ watch(selectedColor, () => {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    
+
     button {
         margin-right: 2rem;
     }
