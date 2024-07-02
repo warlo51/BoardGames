@@ -6,8 +6,8 @@
             </button>
         </div>
     </div>
-
-    <div :class="getColorPage()" v-if="selectedColor">
+    <div v-if="selectedColor">
+        <div :class="getColorPage()" >
         <h2 class="ml-8 font-bold">Cartes Reçus</h2>
         <table class="table-auto">
             <thead>
@@ -31,7 +31,7 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-16" :class="getColorPage()" v-if="selectedColor">
+    <div class="mt-16" :class="getColorPage()">
         <h2 class="ml-8 font-bold">Cartes Données</h2>
         <table class="table-auto">
             <thead>
@@ -54,6 +54,7 @@
                 </tr>
             </tbody>
         </table>
+    </div>
     </div>
 
   <button @click="reset" class="ml-8 mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
