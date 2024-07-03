@@ -11,26 +11,30 @@
         <img :src="getBody" class="cartMe"/>
         <img :src="getCode" class="cartMe"/>
     </div>
+    <div class="divCartMe" v-if="selectedPersoColor !== '' || selectedBodyColor !== 'null'" :class="getColorCartOther()">
+        <img :src="selectedPersoColor" class="cartMe"/>
+        <img :src="selectedBodyColor" class="cartMe"/>
+    </div>
     <div v-if="selectedColor">
         <div :class="getColorPage()" >
         <h2 class="ml-8 font-bold">Cartes Reçus</h2>
         <table class="table-auto">
             <thead>
                 <tr>
-                    <th class="px-4 py-2">F</th>
-                    <th class="px-4 py-2">B</th>
-                    <th class="px-4 py-2">Z</th>
-                    <th class="px-4 py-2">X</th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2" @click="selectedColorPerso('F')">F</th>
+                    <th class="px-4 py-2" @click="selectedColorPerso('B')">B</th>
+                    <th class="px-4 py-2" @click="selectedColorPerso('Z')">Z</th>
+                    <th class="px-4 py-2" @click="selectedColorPerso('X')">X</th>
+                    <th class="px-4 py-2" @click="selectedColorBody('grand')">
                         <img src="../../../public/IAV/icons/icon_grand.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2" @click="selectedColorBody('maigre')">
                         <img src="../../../public/IAV/icons/icon_maigre.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2" @click="selectedColorBody('petit')">
                         <img src="../../../public/IAV/icons/icon_petit.jpg"/>
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2" @click="selectedColorBody('gros')">
                         <img src="../../../public/IAV/icons/icon_gros.jpg"/>
                     </th>
                 </tr>
@@ -92,6 +96,8 @@ const gamerBody = ref<string|null>(null);
 const gamerPerso = ref<string|null>(null);
 const gamerCode= ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
+const selectedPersoColor = ref<string>('');
+const selectedBodyColor = ref<string>('');
 const gamersNames = ref();
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
@@ -107,6 +113,30 @@ const getPerso = computed(()=>{
         return  "/IAV/perso/agent_x.jpg"
     }
 })
+
+const selectedColorPerso = (value: string) => {
+    if(value === "F"){
+        selectedPersoColor.value =  "/IAV/perso/lord_fiddlebottom.jpg"
+    } else  if(value === "B"){
+        selectedPersoColor.value =  "/IAV/perso/col_bubble.jpg"
+    } else  if(value === "Z"){
+        selectedPersoColor.value =  "/IAV/perso/ZsaZsa.jpg"
+    } else  if(value === "X"){
+        selectedPersoColor.value =  "/IAV/perso/agent_x.jpg"
+    }
+}
+
+const selectedColorBody = (value: string) => {
+    if(value === "grand"){
+        selectedBodyColor.value =  "/IAV/body/body_grand_gros.jpg"
+    } else  if(value === "maigre"){
+        selectedBodyColor.value = "/IAV/body/body_grand.jpg"
+    } else  if(value === "petit"){
+        selectedBodyColor.value =  "/IAV/body/body_petit.jpg"
+    } else  if(value === "gros"){
+        selectedBodyColor.value = "/IAV/body/body_petit_gros.jpg"
+    }
+}
 const getCode = computed(()=>{
     if(gamerCode.value === "A"){
         return "/IAV/codes/A.jpg"
@@ -181,6 +211,18 @@ const getColorPage = () => {
          return "pageJaune"
     }else if(selectedColor.value === "Bleu"){
          return "pageBleu"
+    }
+}
+
+const getColorCartOther = () => {
+    if(selectedColor.value === "Rouge"){
+        return "otherCartRouge"
+    } else if(selectedColor.value === "Vert"){
+         return "otherCartVert"
+    }else if(selectedColor.value === "Jaune"){
+         return "otherCartJaune"
+    }else if(selectedColor.value === "Bleu"){
+         return "otherCartBleu"
     }
 }
 const getBackColor = (index: number) => {
@@ -317,6 +359,18 @@ watch(selectedColor, () => {
 }
 .pageBleu{
     color: blue
+}
+.otherCartRouge{
+    border: solid 1px red;
+}
+.otherCartVert{
+    border: solid 1px green;
+}
+.otherCartJaune{
+    border: solid 1px orange;
+}
+.otherCartBleu{
+    border: solid 1px blue;
 }
 .cartMe{
     width: 100px;
