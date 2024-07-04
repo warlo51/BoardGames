@@ -11,9 +11,9 @@
         <img :src="getBody" class="cartMe"/>
         <img :src="getCode" class="cartMe"/>
     </div>
-    <div class="divCartMe" v-if="selectedPersoColor !== '' || selectedBodyColor !== 'null'" :class="getColorCartOther()">
-        <img :src="selectedPersoColor" class="cartMe"/>
-        <img :src="selectedBodyColor" class="cartMe"/>
+    <div class="divCartMe" v-if="selectedPersoColor !== null || selectedBodyColor !== null" :class="getColorCartOther()">
+        <img :src="selectedPersoColor" class="cartMe" @click="selectedColorPerso('reset')"/>
+        <img :src="selectedBodyColor" class="cartMe" @click="selectedColorBody('reset')"/>
     </div>
     <div v-if="selectedColor">
         <div :class="getColorPage()" >
@@ -96,8 +96,8 @@ const gamerBody = ref<string|null>(null);
 const gamerPerso = ref<string|null>(null);
 const gamerCode= ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
-const selectedPersoColor = ref<string>('');
-const selectedBodyColor = ref<string>('');
+const selectedPersoColor = ref<string|null>('');
+const selectedBodyColor = ref<string|null>('');
 const gamersNames = ref();
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
@@ -124,6 +124,12 @@ const selectedColorPerso = (value: string) => {
     } else  if(value === "X"){
         selectedPersoColor.value =  "/IAV/perso/agent_x.jpg"
     }
+    if(value === "reset"){
+        selectedPersoColor.value =  null
+        localStorage.removeItem(`selectedPersoColor${selectedColor.value}`)
+    }
+    if(selectedPersoColor.value)
+    localStorage.setItem(`selectedPersoColor${selectedColor.value}`,selectedPersoColor.value)
 }
 
 const selectedColorBody = (value: string) => {
@@ -136,6 +142,12 @@ const selectedColorBody = (value: string) => {
     } else  if(value === "gros"){
         selectedBodyColor.value = "/IAV/body/body_petit_gros.jpg"
     }
+    if(value === "reset"){
+        selectedBodyColor.value =  null
+        localStorage.removeItem(`selectedBodyColor${selectedColor.value}`)
+    }
+    if(selectedBodyColor.value)
+    localStorage.setItem(`selectedBodyColor${selectedColor.value}`,selectedBodyColor.value)
 }
 const getCode = computed(()=>{
     if(gamerCode.value === "A"){
@@ -255,6 +267,18 @@ const reset = () => {
     localStorage.removeItem(`gamerBody`);
     localStorage.removeItem(`gamerCode`);
     localStorage.removeItem(`gamerNames`);
+    localStorage.removeItem(`gameSendJaune`);
+    localStorage.removeItem(`gameSendRouge`);
+    localStorage.removeItem(`gameSendVert`);
+    localStorage.removeItem(`gameSendBleu`);
+    localStorage.removeItem(`selectedBodyColorRouge`);
+    localStorage.removeItem(`selectedBodyColorJaune`);
+    localStorage.removeItem(`selectedBodyColorVert`);
+    localStorage.removeItem(`selectedBodyColorBleu`);
+    localStorage.removeItem(`selectedPersoColorRouge`);
+    localStorage.removeItem(`selectedPersoColorJaune`);
+    localStorage.removeItem(`selectedPersoColorVert`);
+    localStorage.removeItem(`selectedPersoColorBleu`);
     window.location.href = '/IAV';
 }
 
@@ -302,13 +326,17 @@ watch(selectedColor, () => {
     if (selectedColor.value) {
         const storedData = localStorage.getItem(`game${selectedColor.value}`);
         const storedDataDonee = localStorage.getItem(`gameSend${selectedColor.value}`);
+        selectedBodyColor.value = localStorage.getItem(`selectedBodyColor${selectedColor.value}`)
+        selectedPersoColor.value = localStorage.getItem(`selectedPersoColor${selectedColor.value}`)
+     
         if (storedData) {
             data.value = JSON.parse(storedData);
+        } else if (!storedData) {
+            data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
         }
         if (storedDataDonee) {
             dataDonnees.value = JSON.parse(storedDataDonee);
-        } else {
-            data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
+        } else if (!storedDataDonee) {
             dataDonnees.value = Array.from({ length: 15 }, () => Array(8).fill(''));
         }
     }
