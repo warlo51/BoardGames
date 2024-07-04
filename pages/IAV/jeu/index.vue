@@ -11,9 +11,13 @@
         <img :src="getBody" class="cartMe"/>
         <img :src="getCode" class="cartMe"/>
     </div>
-    <div class="divCartMe" v-if="selectedPersoColor !== null || selectedBodyColor !== null" :class="getColorCartOther()">
-        <img :src="selectedPersoColor" class="cartMe" @click="selectedColorPerso('reset')"/>
-        <img :src="selectedBodyColor" class="cartMe" @click="selectedColorBody('reset')"/>
+    <div v-if="selectedColor" class="divCartMe">
+        <img v-if="selectedPersoColor" :class="getColorCartOther()" :src="selectedPersoColor" class="cartMe" @click="selectedColorPerso()"/>
+        <div v-else-if="!selectedPersoColor" :class="getColorCartOther()" class="cartMeEmpty" @click="selectedColorPerso()">Perso</div>
+        <img v-if="selectedBodyColor" :class="getColorCartOther()" :src="selectedBodyColor" class="cartMe" @click="selectedColorBody()"/>
+        <div v-else-if="!selectedBodyColor" :class="getColorCartOther()" class="cartMeEmpty" @click="selectedColorBody()">Silouhette</div>
+        <img v-if="selectedCodeColor" :class="getColorCartOther()" :src="selectedCodeColor" class="cartMe" @click="selectedColorCode()"/>
+        <div v-else-if="!selectedCodeColor" :class="getColorCartOther()" class="cartMeEmpty" @click="selectedColorCode()">Code</div>
     </div>
     <div v-if="selectedColor">
         <div :class="getColorPage()" >
@@ -98,6 +102,7 @@ const gamerCode= ref<string|null>(null);
 const selectedColor = ref<string|null>(null);
 const selectedPersoColor = ref<string|null>('');
 const selectedBodyColor = ref<string|null>('');
+const selectedCodeColor = ref<string|null>('');
 const gamersNames = ref();
 const data = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
 const dataDonnees = ref<string[][]>(Array.from({ length: 15 }, () => Array(8).fill('')));
@@ -114,38 +119,60 @@ const getPerso = computed(()=>{
     }
 })
 
-const selectedColorPerso = (value: string) => {
-    if(value === "F"){
-        selectedPersoColor.value =  "/IAV/perso/lord_fiddlebottom.jpg"
-    } else  if(value === "B"){
-        selectedPersoColor.value =  "/IAV/perso/col_bubble.jpg"
-    } else  if(value === "Z"){
-        selectedPersoColor.value =  "/IAV/perso/ZsaZsa.jpg"
-    } else  if(value === "X"){
-        selectedPersoColor.value =  "/IAV/perso/agent_x.jpg"
-    }
-    if(value === "reset"){
+const selectedColorPerso = () => {
+    if(selectedPersoColor.value === null || selectedPersoColor.value === ''){
+        console.log("coucou")
+         selectedPersoColor.value =  "/IAV/perso/lord_fiddlebottom.jpg"
+    }else if(selectedPersoColor.value === "/IAV/perso/lord_fiddlebottom.jpg"){
+        console.log("coucou2")
+         selectedPersoColor.value =  "/IAV/perso/col_bubble.jpg"
+    }else if(selectedPersoColor.value === "/IAV/perso/col_bubble.jpg"){
+        console.log("coucou3")
+         selectedPersoColor.value =   "/IAV/perso/ZsaZsa.jpg"
+    }else if(selectedPersoColor.value === "/IAV/perso/ZsaZsa.jpg"){
+        console.log("coucou4")
+         selectedPersoColor.value =   "/IAV/perso/agent_x.jpg"
+    }else if(selectedPersoColor.value ===  "/IAV/perso/agent_x.jpg"){
+        console.log("coucou5")
         selectedPersoColor.value =  null
         localStorage.removeItem(`selectedPersoColor${selectedColor.value}`)
     }
+   
+    if(selectedPersoColor.value)
+    localStorage.setItem(`selectedPersoColor${selectedColor.value}`,selectedPersoColor.value)
+}
+const selectedColorCode = () => {
+    if(selectedCodeColor.value === null  || selectedCodeColor.value === ''){
+        selectedCodeColor.value =  "/IAV/codes/A.jpg"
+    } else if(selectedCodeColor.value === "/IAV/codes/A.jpg"){
+        selectedCodeColor.value =  "/IAV/codes/B.jpg"
+    }else if(selectedCodeColor.value === "/IAV/codes/B.jpg"){
+        selectedCodeColor.value =   "/IAV/codes/C.jpg"
+    }else if(selectedCodeColor.value === "/IAV/codes/C.jpg"){
+        selectedCodeColor.value =  "/IAV/codes/D.jpg"
+    }else if(selectedCodeColor.value ===   "/IAV/codes/D.jpg"){
+        selectedCodeColor.value =  null
+        localStorage.removeItem(`selectedCodeColor${selectedColor.value}`)
+    }
+   
     if(selectedPersoColor.value)
     localStorage.setItem(`selectedPersoColor${selectedColor.value}`,selectedPersoColor.value)
 }
 
-const selectedColorBody = (value: string) => {
-    if(value === "grand"){
-        selectedBodyColor.value =  "/IAV/body/body_grand_gros.jpg"
-    } else  if(value === "maigre"){
+const selectedColorBody = () => {
+    if(selectedBodyColor.value === null || selectedBodyColor.value === ''){
+        selectedBodyColor.value =   "/IAV/body/body_grand_gros.jpg"
+    } else if(selectedBodyColor.value ===  "/IAV/body/body_grand_gros.jpg"){
         selectedBodyColor.value = "/IAV/body/body_grand.jpg"
-    } else  if(value === "petit"){
-        selectedBodyColor.value =  "/IAV/body/body_petit.jpg"
-    } else  if(value === "gros"){
-        selectedBodyColor.value = "/IAV/body/body_petit_gros.jpg"
-    }
-    if(value === "reset"){
+    }else if(selectedBodyColor.value === "/IAV/body/body_grand.jpg"){
+        selectedBodyColor.value =   "/IAV/body/body_petit.jpg"
+    }else if(selectedBodyColor.value === "/IAV/body/body_petit.jpg"){
+        selectedBodyColor.value =  "/IAV/body/body_petit_gros.jpg"
+    }else if(selectedBodyColor.value ===  "/IAV/body/body_petit_gros.jpg"){
         selectedBodyColor.value =  null
         localStorage.removeItem(`selectedBodyColor${selectedColor.value}`)
     }
+   
     if(selectedBodyColor.value)
     localStorage.setItem(`selectedBodyColor${selectedColor.value}`,selectedBodyColor.value)
 }
@@ -328,6 +355,7 @@ watch(selectedColor, () => {
         const storedDataDonee = localStorage.getItem(`gameSend${selectedColor.value}`);
         selectedBodyColor.value = localStorage.getItem(`selectedBodyColor${selectedColor.value}`)
         selectedPersoColor.value = localStorage.getItem(`selectedPersoColor${selectedColor.value}`)
+        selectedCodeColor.value = localStorage.getItem(`selectedCodeColor${selectedColor.value}`)
      
         if (storedData) {
             data.value = JSON.parse(storedData);
@@ -403,7 +431,16 @@ watch(selectedColor, () => {
 }
 .cartMe{
     width: 100px;
+    height: 150px;
     margin-right: 20px;
+}
+.cartMeEmpty{
+    width: 100px;
+    height: 150px;
+    margin-right: 20px;
+    text-align: center;
+    align-content: center;
+    font-weight: bold;
 }
 .divCartMe{
     display: flex;
