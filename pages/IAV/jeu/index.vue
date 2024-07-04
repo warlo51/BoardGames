@@ -304,7 +304,8 @@ watch(selectedColor, () => {
         const storedDataDonee = localStorage.getItem(`gameSend${selectedColor.value}`);
         if (storedData) {
             data.value = JSON.parse(storedData);
-        } else if (storedDataDonee) {
+        }
+        if (storedDataDonee) {
             dataDonnees.value = JSON.parse(storedDataDonee);
         } else {
             data.value = Array.from({ length: 15 }, () => Array(8).fill(''));
