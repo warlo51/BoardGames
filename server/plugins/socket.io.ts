@@ -7,7 +7,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   const engine = new Engine();
   const io = new Server(this, {
     cors: {
-      origin: "https://board-games-tau.vercel.app/"
+      origin: "https://board-games-tau.vercel.app/socket.io/"
     }
   });
   const sessions: any = {};
