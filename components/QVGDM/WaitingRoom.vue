@@ -20,6 +20,7 @@
   const players = ref([]);
   const socket = io();
 
+  console.log("socket",socket)
   const startGame = () => {
     socket.emit("message", JSON.stringify({ type: 'startGame', gameId: props.gameId }));
   };

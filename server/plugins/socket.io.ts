@@ -5,7 +5,11 @@ import { defineEventHandler } from "h3";
 
 export default defineNitroPlugin((nitroApp: NitroApp) => {
   const engine = new Engine();
-  const io = new Server();
+  const io = new Server(this, {
+    cors: {
+      origin: "https://board-games-tau.vercel.app/"
+    }
+  });
   const sessions: any = {};
 
   io.bind(engine);
@@ -48,7 +52,6 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   });
 
   function broadcastToOthers(gameId: string, message: string) {
-    console.log("toto", gameId, message)
     Object.values(sessions[gameId]).forEach(player => {
         io.emit("btnClicked", message);
     });
