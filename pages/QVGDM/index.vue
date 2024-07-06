@@ -9,7 +9,6 @@
   import { useRouter } from 'vue-router';
   
   const router = useRouter();
-  
   const startGame = () => {
     router.push('/QVGDM/jeu/start');
   };

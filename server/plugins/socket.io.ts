@@ -5,11 +5,7 @@ import { defineEventHandler } from "h3";
 
 export default defineNitroPlugin((nitroApp: NitroApp) => {
   const engine = new Engine();
-  const io = new Server(this, {
-    cors: {
-      origin: "https://board-games-tau.vercel.app/socket.io/"
-    }
-  });
+  const io = new Server();
   const sessions: any = {};
 
   io.bind(engine);
@@ -70,6 +66,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
 
   nitroApp.router.use("/socket.io/", defineEventHandler({
     handler(event) {
+
       engine.handleRequest(event.node.req, event.node.res);
       event._handled = true;
     },
