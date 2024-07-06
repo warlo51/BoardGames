@@ -17,3 +17,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BOARD_GAMES_C8B29 }}
           channelId: live
           projectId: board-games-c8b29
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks  
