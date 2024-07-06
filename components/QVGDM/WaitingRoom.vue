@@ -18,7 +18,8 @@
 
   const props = defineProps(['gameId', 'playerName', 'isGameMaster']);
   const players = ref([]);
-  const socket = io("https://board-games.fly.dev");
+  //const socket = io("https://board-games.fly.dev");
+  const socket = io();
 
   console.log("socket",socket)
   const startGame = () => {

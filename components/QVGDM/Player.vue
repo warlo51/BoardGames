@@ -56,6 +56,7 @@
             <button class="ml-8 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" @click="resetGame">Question Suivante</button>
             <button v-if="progressBarisRunning" class="ml-8 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" @click="stopTimerGame">Stop Sablier</button>
             <button v-else-if="!progressBarisRunning" class="ml-8 bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" @click="startTimer">Go Sablier</button>
+            <button class="ml-8 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" @click="closeSession">Fin de partie</button>
           </div>
         </div>
       </div>
@@ -73,6 +74,7 @@
   import { ref, onMounted, computed } from 'vue';
   import WaitingRoom from '@/components/QVGDM/WaitingRoom.vue';
   import { io } from "socket.io-client";
+  import {useRouter} from "vue-router";
 
   const props = defineProps(['gameId', 'playerName', 'isGameMaster']);
   const playerId = ref('');
@@ -83,18 +85,36 @@
   const waitingQuestion = ref(true);
   const showModal = ref(false);
   const buttonSelected = ref('');
-
+  const router = useRouter();
   const timeLeft = ref(60);
   const progressBarisRunning = ref(false);
   const progressBarHeight = computed(() => (timeLeft.value / (props.initialTime || 60)) * 100);
 
+  const eliminated = ref(false)
+
+  watch(responseReceived, () => {
+    if(responseReceived.value  !== buttonSelected.value){
+      eliminated.value = true;
+    }
+  });
+
+  watch(eliminated, () => {
+    if(eliminated.value  === true){
+      socket.emit('message', JSON.stringify({ type: 'eliminated', gameId: props.gameId, playerId: playerId.value }));
+    }
+  });
   const socket = io("https://board-games.fly.dev");
+  //const socket = io();
 
   const sendButtonPress = (button) => {
     showModal.value = true;
     buttonSelected.value = button;
   };
 
+  const closeSession = () => {
+    const gameInfo = localStorage.removeItem("gameStarted");
+  socket.emit('message', JSON.stringify({ type: 'close', gameId: props.gameId }));
+  }
   const getColor = (value) => {
     if(buttonSelected.value === 'A' && value === 'A'){
       return 'selectedResponse';
@@ -171,9 +191,11 @@
         playerButtons.value[data.id] = { name: data.name, button: data.button };
         break;
     }});
+  socket.on('close', (message) => {
+    router.push({ path: `/QVGDM/`});
+  });
     socket.on('message', (message) => {
     const data = JSON.parse(message);
-    console.log(data);
     switch (data.type) {
       case 'buttonPress':
         playerButtons.value[data.id] = { name: data.name, button: data.button };
@@ -321,6 +343,6 @@
 .buttonsAdmin{
     display: flex;
     justify-content: center;
-    margin-top: 20rem;
+    margin-top: 10rem;
 }
 </style>

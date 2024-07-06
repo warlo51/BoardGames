@@ -13,7 +13,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   io.on("connection", (socket) => {
     socket.on('message', (message) => {
         const data = JSON.parse(message);
-  
+
         switch (data.type) {
           case 'register':
             console.log("register")
@@ -27,13 +27,20 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
             console.log("buttonPress")
             broadcastToOthers(data.gameId, JSON.stringify({ type: 'buttonPress', id: data.id, name: data.name, button: data.button }));
             break;
+          case 'close':
+           delete sessions[data.gameId];
+            io.emit("close");
+            break;
+          case 'listParties':
+            io.emit("sessions", JSON.stringify(Object.keys(sessions)));
+            break;
           case 'startGame':
             console.log("startGame")
             broadcastToAll(data.gameId, JSON.stringify({ type: 'startGame', gameId: data.gameId }));
             break;
             case 'reponse':
                 broadcastToAll(data.gameId, JSON.stringify({ type: 'reponse', gameId: data.gameId, reponse: data.reponse }));
-                break;  
+                break;
           case 'nextQuestion':
             broadcastToAll(data.gameId, JSON.stringify({ type: 'nextQuestion' }));
             break;
@@ -42,12 +49,12 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
                 break;
                 case 'startTimer':
                     broadcastToAll(data.gameId, JSON.stringify({ type: 'startTimer' }));
-                    break;       
+                    break;
         }
-      });  
+      });
   });
 
-  
+
   function broadcastToOthers(gameId: string, message: string) {
     Object.values(sessions[gameId]).forEach(player => {
         io.emit("btnClicked", message);
