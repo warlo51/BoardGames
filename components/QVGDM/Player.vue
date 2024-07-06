@@ -84,7 +84,7 @@
   const playerButtons = ref({});
   const waitingQuestion = ref(true);
   const showModal = ref(false);
-  const buttonSelected = ref('');
+  const buttonSelected = ref();
   const router = useRouter();
   const timeLeft = ref(60);
   const progressBarisRunning = ref(false);
@@ -163,6 +163,7 @@
 
   const resetGame = () => {
     socket.emit("message", JSON.stringify({ type: 'nextQuestion', gameId: props.gameId }));
+    buttonSelected.value = '';
     progressBarisRunning.value = true;
     playerButtons.value = {};
   };
