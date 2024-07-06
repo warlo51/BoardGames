@@ -47,6 +47,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
       });  
   });
 
+  
   function broadcastToOthers(gameId: string, message: string) {
     Object.values(sessions[gameId]).forEach(player => {
         io.emit("btnClicked", message);
