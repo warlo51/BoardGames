@@ -38,6 +38,7 @@ const startGame = () => {
     showButtonPlay.value = false;
 }
 
+
 watch([gamerPerso, gamerCode, gamerBody, gamerColor, gamersColors], () => {
     if(gamerPerso.value !== null && gamerCode.value !== null && gamerBody.value !== null && gamerColor.value !== null && gamersColors.value !== null) {
         window.location.href = '/IAV/jeu';
