@@ -18,7 +18,7 @@
             <button @click="sendButtonPress('C')" class="button" :class="getColor('C')">C</button>
             <button @click="sendButtonPress('D')" class="button" :class="getColor('D')">D</button>
           </div>
-          </div> 
+          </div>
           <div v-else-if="responseReceived !== ''" class="buttonsSelection" :class="{disabled : progressBarisRunning === false}">
             <div class="line">
             <button @click="sendButtonPress('A')" class="button" :class="getColorWithResponse('A',false)">A</button>
@@ -28,7 +28,7 @@
             <button @click="sendButtonPress('C')" class="button" :class="getColorWithResponse('C',false)">C</button>
             <button @click="sendButtonPress('D')" class="button" :class="getColorWithResponse('D',false)">D</button>
           </div>
-          </div>   
+          </div>
         </div>
         <div v-else>
             <div class="progress-container">
@@ -68,7 +68,7 @@
     </div>
   </div>
   </template>
-  
+
   <script setup>
   import { ref, onMounted, computed } from 'vue';
   import WaitingRoom from '@/components/QVGDM/WaitingRoom.vue';
@@ -87,14 +87,14 @@
   const timeLeft = ref(60);
   const progressBarisRunning = ref(false);
   const progressBarHeight = computed(() => (timeLeft.value / (props.initialTime || 60)) * 100);
-  
-  const socket = io();
-  
+
+  const socket = io("https://board-games.fly.dev");
+
   const sendButtonPress = (button) => {
     showModal.value = true;
     buttonSelected.value = button;
   };
-  
+
   const getColor = (value) => {
     if(buttonSelected.value === 'A' && value === 'A'){
       return 'selectedResponse';
@@ -129,7 +129,7 @@
     return "badResponse";
         }
     }
-  
+
   };
   const confirm = (value) => {
     if(value === true && buttonSelected.value !== ''){
@@ -138,7 +138,7 @@
     }else{
         buttonSelected.value = '';
     }
-    showModal.value = false; 
+    showModal.value = false;
   }
 
   const resetGame = () => {
@@ -151,13 +151,13 @@
     socket.emit("message", JSON.stringify({ type: 'stopTimer', gameId: props.gameId }));
     progressBarisRunning.value = false;
   };
-  
+
   const setResult = () => {
     progressBarisRunning.value = false;
     socket.emit("message", JSON.stringify({ type: 'reponse', gameId: props.gameId, reponse: reponse.value }));
   };
   const startDecrementing = () => {
-  
+
   interval = setInterval(() => {
     if (timeLeft.value > 0 && progressBarisRunning.value === true) {
       timeLeft.value--;
@@ -170,7 +170,7 @@
       case 'buttonPress':
         playerButtons.value[data.id] = { name: data.name, button: data.button };
         break;
-    }});  
+    }});
     socket.on('message', (message) => {
     const data = JSON.parse(message);
     console.log(data);
@@ -193,18 +193,18 @@
         break;
         case 'reponse':
         responseReceived.value = data.reponse;
-        break;    
+        break;
     case 'stopTimer':
         progressBarisRunning.value = false;
-        break;  
+        break;
     case 'startTimer':
         timeLeft.value = 60;
         progressBarisRunning.value = true;
         startDecrementing();
-        break;      
+        break;
     }
-    });  
-  
+    });
+
     const startTimer = () => {
         socket.emit("message", JSON.stringify({ type: 'startTimer', gameId: props.gameId }));
     }
@@ -260,7 +260,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-}    
+}
 .tableScore{
     margin-left: 40px;
     text-align: center;
@@ -324,4 +324,3 @@
     margin-top: 20rem;
 }
 </style>
-  

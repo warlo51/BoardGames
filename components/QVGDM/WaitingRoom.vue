@@ -11,20 +11,20 @@
       </div>
     </div>
   </template>
-  
+
   <script setup>
   import { ref, onMounted } from 'vue';
   import { io } from "socket.io-client";
 
   const props = defineProps(['gameId', 'playerName', 'isGameMaster']);
   const players = ref([]);
-  const socket = io();
+  const socket = io("https://board-games.fly.dev");
 
   console.log("socket",socket)
   const startGame = () => {
     socket.emit("message", JSON.stringify({ type: 'startGame', gameId: props.gameId }));
   };
-  
+
   socket.on('message', (message) => {
     const data = JSON.parse(message);
     switch (data.type) {
@@ -35,11 +35,10 @@
         window.location.href = `/QVGDM/jeu/${props.gameId}?id=${props.playerName}&playerName=${props.playerName}&isGameMaster=${props.isGameMaster}`;
         break;
     }
-    });  
+    });
 
-  
+
   onMounted(() => {
     socket.emit("message", JSON.stringify({ type: 'register', id: props.playerName, name: props.playerName, isGameMaster: props.isGameMaster, gameId: props.gameId }));
 });
   </script>
-  
